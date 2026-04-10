@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Profile</title>
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+
+<body>
+
+    <div class="card">
+
+        <div class="top-strip">
+            <div class="navbar">
+                <h2>Profile</h2>
+                <button onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="card-content">
+
+            <div class="user-info">
+
+                <div class="user-left">
+                    <div class="avatar">J</div>
+
+                    <div class="user-details">
+                        <h2 id="name"></h2>
+                        <p id="email"></p>
+                    </div>
+                </div>
+
+                <button class="edit-btn" onclick="enableEdit()">Edit</button>
+            </div>
+
+            <form id="profileForm">
+
+                <div>
+                    <label>Nick Name</label>
+                    <input name="nickname" disabled>
+                </div>
+
+                <div>
+                    <label>Gender</label>
+                    <input name="gender" disabled>
+                </div>
+
+                <div>
+                    <label>Country</label>
+                    <input name="country" disabled>
+                </div>
+
+                <div>
+                    <label>Language</label>
+                    <input name="language" disabled>
+                </div>
+
+                <div class="full">
+                    <label>Time Zone</label>
+                    <input name="timezone" disabled>
+                </div>
+
+                <button type="submit" class="save-btn" id="saveBtn" style="display:none;">
+                    Save Changes
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="js/profile.js"></script>
+
+</body>
+
+</html>
