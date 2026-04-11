@@ -19,26 +19,31 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         alert("Password must contain at least 1 number");
         return;
     }
-    
+
     try {
         const res = await fetch("http://127.0.0.1:8000/register", {
             method: "POST",
             body: formData
         });
 
-        const data = await res.json();
+        console.log("Response:", res); // 👈 debug
 
-        if (data.status === "registered") {
+        const data = await res.json();
+        console.log("Data:", data); // 👈 debug
+
+        if (res.ok && data.status === "registered") {
             alert("Registered Successfully ✅");
             window.location.href = "login.html";
-        }
+        } 
         else if (data.status === "exists") {
             alert("Email already registered ❌");
-        } else {
-            alert("Registration Failed ❌");
+        } 
+        else {
+            alert(data.message || "Registration Failed ❌");
         }
+
     } catch (error) {
+        console.error("ERROR:", error); // 👈 see real error
         alert("Server Error ❌");
-        console.error(error);
     }
 });
