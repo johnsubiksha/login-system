@@ -2,6 +2,7 @@ from fastapi import APIRouter, Form
 from fastapi.responses import JSONResponse
 from backend.db import get_db
 from backend.session import create_session
+import bcrypt
 
 router = APIRouter()
 
@@ -13,17 +14,24 @@ def login_user(
     db = get_db()
     cursor = db.cursor()
 
-    query = "SELECT * FROM users WHERE email=%s AND password=%s"
-    cursor.execute(query, (email, password))
+    email = email.strip()
+
+    # 🔍 get user
+    cursor.execute("SELECT * FROM users WHERE email=%s", (email,))
     user = cursor.fetchone()
 
     if user:
-        create_session(email)
+        stored_password = user[4]   # hashed password
 
-        return JSONResponse({
-            "status": "success",
-            "name": user[1] + " " + user[2],
-            "email": user[3]
-        })
-    else:
-        return JSONResponse({"status": "fail"})
+        # 🔐 check password
+        if bcrypt.checkpw(password.encode(), stored_password.encode()):
+            token = create_session(email)
+
+            return JSONResponse({
+                "status": "success",
+                "token": token,
+                "name": user[1] + " " + user[2],
+                "email": user[3]
+            })
+
+    return JSONResponse({"status": "fail"})
